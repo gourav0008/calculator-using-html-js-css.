@@ -1,27 +1,49 @@
-let input = document.getElementById('inputBox');
-let buttons = document.querySelectorAll('button');
+let celsiusInput = document.querySelector('#celsius > input')
+let fahrenheitInput = document.querySelector('#fahrenheit > input')
+let kelvinInput = document.querySelector('#kelvin > input')
 
-let string = "";
-let arr = Array.from(buttons);
-arr.forEach(button => {
-    button.addEventListener('click', (e) =>{
-        if(e.target.innerHTML == '='){
-            string = eval(string);
-            input.value = string;
-        }
+let btn = document.querySelector('.button button')
 
-        else if(e.target.innerHTML == 'AC'){
-            string = "";
-            input.value = string;
-        }
-        else if(e.target.innerHTML == 'DEL'){
-            string = string.substring(0, string.length-1);
-            input.value = string;
-        }
-        else{
-            string += e.target.innerHTML;
-            input.value = string;
-        }
-        
-    })
+
+function roundNumber(number){
+    return Math.round(number*100)/100
+}
+
+
+/* Celcius to Fahrenheit and Kelvin */
+celsiusInput.addEventListener('input', function(){
+    let cTemp = parseFloat(celsiusInput.value)
+    let fTemp = (cTemp*(9/5)) + 32
+    let kTemp = cTemp + 273.15
+
+    fahrenheitInput.value = roundNumber(fTemp)
+    kelvinInput.value = roundNumber(kTemp)
+})
+
+
+/* Fahrenheit to Celcius and Kelvin */
+fahrenheitInput.addEventListener('input', function(){
+    let fTemp = parseFloat(fahrenheitInput.value)
+    let cTemp = (fTemp - 32) * (5/9)
+    let kTemp = (fTemp -32) * (5/9) + 273.15
+
+    celsiusInput.value = roundNumber(cTemp)
+    kelvinInput.value = roundNumber(kTemp)
+})
+
+/* Kelvin to Celcius and Fahrenheit */
+kelvinInput.addEventListener('input', function(){
+    let kTemp = parseFloat(kelvinInput.value)
+    let cTemp = kTemp - 273.15
+    let fTemp = (kTemp - 273.15) * (9/5) + 32
+
+    celsiusInput.value = roundNumber(cTemp)
+    fahrenheitInput.value = roundNumber(fTemp)
+})
+
+
+btn.addEventListener('click', ()=>{
+    celsiusInput.value = ""
+    fahrenheitInput.value = ""
+    kelvinInput.value = ""
 })
